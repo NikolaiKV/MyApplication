@@ -13,7 +13,10 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
 
 
-public class Library implements LifecycleObserver {
+public class Library {
+    public static final String START_ACTIVITY_NOTIFICATION = "com.android.my_library.activity.start";
+    public static final String STOP_ACTIVITY_NOTIFICATION = "com.android.my_library.activity.stop";
+
 
     private final AppCompatActivity mainContext;
 

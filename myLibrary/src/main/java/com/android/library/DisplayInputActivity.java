@@ -1,9 +1,8 @@
 package com.android.library;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,18 +20,18 @@ public class DisplayInputActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Toast.makeText(this,
-                "Activity " + getLocalClassName() + " started",
-                Toast.LENGTH_SHORT)
-                .show();
+        Intent intent = new Intent(Library.START_ACTIVITY_NOTIFICATION);
+        intent.putExtra("State", getLifecycle().getCurrentState());
+        intent.putExtra("Message", "Activity " + getLocalClassName() + " started");
+        sendBroadcast(intent);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Toast.makeText(this,
-                "Activity " + getLocalClassName() + " stopped",
-                Toast.LENGTH_SHORT)
-                .show();
+        Intent intent = new Intent(Library.STOP_ACTIVITY_NOTIFICATION);
+        intent.putExtra("State", getLifecycle().getCurrentState());
+        intent.putExtra("Message", "Activity " + getLocalClassName() + " stopped");
+        sendBroadcast(intent);
     }
 }

@@ -5,18 +5,22 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.library.Library;
 
 public class MainActivity extends AppCompatActivity {
 
     private Library library;
+    private BroadcastReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +32,18 @@ public class MainActivity extends AppCompatActivity {
 //        getApplication().registerActivityLifecycleCallbacks(new LifecycleListener());
 
         library = new Library(MainActivity.this);
+        receiver = new MyBroadcastReciver(MainActivity.this);
 
         registerSubmitUserTextButton();
 
         registerChooseImageButton();
+
+        registerBroadcastReciver();
+    }
+
+    private void registerBroadcastReciver() {
+        registerReceiver(receiver, new IntentFilter(Library.START_ACTIVITY_NOTIFICATION));
+        registerReceiver(receiver, new IntentFilter(Library.STOP_ACTIVITY_NOTIFICATION));
     }
 
     private void registerSubmitUserTextButton() {
@@ -58,5 +70,10 @@ public class MainActivity extends AppCompatActivity {
         ImageView imageView = findViewById(R.id.imageView);
         imageView.setVisibility(View.VISIBLE);
         imageView.setImageURI(chosenImageUri);
+    }
+
+    public void showToast(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT)
+                .show();
     }
 }
